@@ -6,7 +6,8 @@
       "~/*": ["./src/*"]
     },
     "plugins": [{ "name": "next" }],
-    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+    "strictNullChecks": true
   },
   "include": [".", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]

@@ -1,19 +1,14 @@
-import type { DefaultSession } from "next-auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth from "next-auth";
 import Discord from "next-auth/providers/discord";
+import Email from "next-auth/providers/nodemailer";
 
 import { db, tableCreator } from "@acme/db";
 
-export type { Session } from "next-auth";
+import { env } from "../env";
+import { sendVerificationRequest } from "./sendVerificationRequest";
 
-declare module "next-auth" {
-  interface Session {
-    user: {
-      id: string;
-    } & DefaultSession["user"];
-  }
-}
+export type { Session } from "next-auth";
 
 export const {
   handlers: { GET, POST },
@@ -22,7 +17,19 @@ export const {
   signOut,
 } = NextAuth({
   adapter: DrizzleAdapter(db, tableCreator),
-  providers: [Discord],
+  providers: [
+    Discord({
+      clientId: env.AUTH_DISCORD_ID,
+      clientSecret: env.AUTH_DISCORD_SECRET,
+    }),
+    Email({
+      id: "email", // needed to allow signIn("email")
+      name: "Email", // Changes text on default sign in button
+      server: env.EMAIL_SERVER,
+      from: env.EMAIL_FROM,
+      sendVerificationRequest,
+    }),
+  ],
   callbacks: {
     session: (opts) => {
       if (!("user" in opts)) throw "unreachable with session strategy";

@@ -11,7 +11,10 @@
     "clean:workspaces": "turbo clean",
     "db:push": "pnpm -F db push",
     "db:studio": "pnpm -F db studio",
+    "db:generate": "pnpm -F db generate",
+    "db:migrate": "pnpm -F db migrate",
     "dev": "turbo dev --parallel",
+    "env:load": "turbo env:load",
     "format": "turbo format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
     "format:fix": "turbo format --continue -- --write --cache --cache-location node_modules/.cache/.prettiercache",
     "lint": "turbo lint --continue -- --cache --cache-location node_modules/.cache/.eslintcache",
@@ -27,5 +30,10 @@
     "turbo": "^1.12.3",
     "typescript": "^5.3.3"
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@acme/prettier-config",
+  "pnpm": {
+    "patchedDependencies": {
+      "trpc-openapi@1.2.0": "patches/trpc-openapi@1.2.0.patch"
+    }
+  }
 }

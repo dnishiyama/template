@@ -1,6 +1,7 @@
 "use client";
 
 import { use } from "react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import type { RouterOutputs } from "@acme/api";
 import { cn } from "@acme/ui";
@@ -85,6 +86,7 @@ export function PostList(props: {
   posts: Promise<RouterOutputs["post"]["all"]>;
 }) {
   // TODO: Make `useSuspenseQuery` work without having to pass a promise from RSC
+  const [listRef] = useAutoAnimate();
   const initialData = use(props.posts);
   const { data: posts } = api.post.all.useQuery(undefined, {
     initialData,
@@ -105,7 +107,7 @@ export function PostList(props: {
   }
 
   return (
-    <div className="flex w-full flex-col gap-4">
+    <div className="flex w-full flex-col gap-4" ref={listRef}>
       {posts.map((p) => {
         return <PostCard key={p.id} post={p} />;
       })}

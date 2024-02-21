@@ -1,0 +1,21 @@
+diff --git a/dist/utils/procedure.js b/dist/utils/procedure.js
+index c838521e9c8d50febf7428a3c91060353bc0366e..c09c74f616543a4f7de90fc333eab04791c73c0b 100644
+--- a/dist/utils/procedure.js
++++ b/dist/utils/procedure.js
+@@ -17,12 +17,10 @@ const getInputOutputParsers = (procedure) => {
+ };
+ exports.getInputOutputParsers = getInputOutputParsers;
+ const getProcedureType = (procedure) => {
+-    if (procedure._def.query)
+-        return 'query';
+-    if (procedure._def.mutation)
+-        return 'mutation';
+-    if (procedure._def.subscription)
+-        return 'subscription';
++    const allowedProcedureTypes = ['query', 'mutation', 'subscription']
++    if (allowedProcedureTypes.includes(procedure._def.type)) {
++        return procedure._def.type;
++    }
+     throw new Error('Unknown procedure type');
+ };
+ const forEachOpenApiProcedure = (procedureRecord, callback) => {

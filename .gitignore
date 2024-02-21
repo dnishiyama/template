@@ -37,7 +37,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
-.env
+.env*
 .env*.local
 
 # vercel
@@ -48,3 +48,7 @@ yarn-error.log*
 
 # turbo
 .turbo
+
+.flaskenv*
+!.env.project
+!.env.vault

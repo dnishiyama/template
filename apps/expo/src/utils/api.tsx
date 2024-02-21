@@ -7,6 +7,8 @@ import superjson from "superjson";
 
 import type { AppRouter } from "@acme/api";
 
+import type { EasExtra } from "./types";
+
 /**
  * A set of typesafe hooks for consuming your API.
  */
@@ -30,10 +32,7 @@ const getBaseUrl = () => {
   const localhost = debuggerHost?.split(":")[0];
 
   if (!localhost) {
-    // return "https://turbo.t3.gg";
-    throw new Error(
-      "Failed to get localhost. Please point to your production server.",
-    );
+    return (Constants.expoConfig?.extra as EasExtra).apiUrl;
   }
   return `http://${localhost}:3000`;
 };
@@ -43,7 +42,20 @@ const getBaseUrl = () => {
  * Use only in _app.tsx
  */
 export function TRPCProvider(props: { children: React.ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 5 * 1000,
+            retry: false,
+            refetchOnMount: true,
+            refetchOnWindowFocus: false,
+            refetchOnReconnect: false,
+          },
+        },
+      }),
+  );
   const [trpcClient] = useState(() =>
     api.createClient({
       links: [
@@ -59,6 +71,8 @@ export function TRPCProvider(props: { children: React.ReactNode }) {
           headers() {
             const headers = new Map<string, string>();
             headers.set("x-trpc-source", "expo-react");
+            const version = Constants.expoConfig?.version;
+            if (version) headers.set("x-mobile-version", version);
             return Object.fromEntries(headers);
           },
         }),

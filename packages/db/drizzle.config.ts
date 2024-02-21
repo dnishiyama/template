@@ -1,20 +1,14 @@
 import type { Config } from "drizzle-kit";
 
-const uri = [
-  "mysql://",
-  process.env.DB_USERNAME,
-  ":",
-  process.env.DB_PASSWORD,
-  "@",
-  process.env.DB_HOST,
-  ":3306/",
-  process.env.DB_NAME,
-  '?ssl={"rejectUnauthorized":true}',
-].join("");
+import { env } from "@acme/auth/env";
+
+const uri = env.DATABASE_URL;
+if (!uri) throw new Error("DATABASE_URL is not defined");
 
 export default {
   schema: "./src/schema",
   driver: "mysql2",
   dbCredentials: { uri },
-  tablesFilter: ["t3turbo_*"],
+  tablesFilter: ["template_*"],
+  out: "../db/drizzle",
 } satisfies Config;

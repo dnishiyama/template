@@ -6,7 +6,7 @@
       "dependsOn": ["^topo"]
     },
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "env:load"],
       "outputs": [
         ".next/**",
         "!.next/cache/**",
@@ -20,6 +20,7 @@
       "persistent": true,
       "cache": false
     },
+    "env:load": {},
     "format": {
       "outputs": ["node_modules/.cache/.prettiercache"],
       "outputMode": "new-only"
