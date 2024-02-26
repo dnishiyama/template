@@ -20,7 +20,7 @@
       "persistent": true,
       "cache": false
     },
-    "env:load": {},
+    "env:load": { "cache": false },
     "format": {
       "outputs": ["node_modules/.cache/.prettiercache"],
       "outputMode": "new-only"

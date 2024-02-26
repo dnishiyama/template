@@ -2,7 +2,9 @@ import { drizzle } from "drizzle-orm/mysql2";
 import { migrate } from "drizzle-orm/mysql2/migrator";
 import mysql from "mysql2";
 
-const databaseUrl = process.env.DATABASE_URL;
+import { env } from "@acme/env";
+
+const databaseUrl = env.DATABASE_URL;
 if (!databaseUrl) throw new Error("DATABASE_URL is not defined");
 
 // for migrations

@@ -1,6 +1,6 @@
 import type { Config } from "drizzle-kit";
 
-import { env } from "@acme/auth/env";
+import { env } from "@acme/env";
 
 const uri = env.DATABASE_URL;
 if (!uri) throw new Error("DATABASE_URL is not defined");

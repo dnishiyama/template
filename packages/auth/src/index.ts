@@ -4,8 +4,8 @@ import Discord from "next-auth/providers/discord";
 import Email from "next-auth/providers/nodemailer";
 
 import { db, tableCreator } from "@acme/db";
+import { env } from "@acme/env";
 
-import { env } from "../env";
 import { sendVerificationRequest } from "./sendVerificationRequest";
 
 export type { Session } from "next-auth";
