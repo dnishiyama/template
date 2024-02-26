@@ -74,7 +74,7 @@ export function createTables(mySqlTable: MySqlTableFn) {
 
 export type DefaultSchema = ReturnType<typeof createTables>;
 
-export function mySqlDrizzleAdapter(
+export function MDMySqlDrizzleAdapter(
   client: InstanceType<typeof MySqlDatabase>,
   tableFn = defaultMySqlTableFn,
 ): Adapter {
