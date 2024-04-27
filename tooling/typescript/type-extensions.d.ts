@@ -31,3 +31,27 @@ declare module "next-auth" {
   //   // role: UserRole;
   // }
 }
+
+// https://stackoverflow.com/questions/71099924/cannot-find-module-file-name-png-or-its-corresponding-type-declarations-type
+declare global {
+  declare module "*.png" {
+    const content: string;
+    export default content;
+  }
+  declare module "*.svg" {
+    const content: string;
+    export default content;
+  }
+  declare module "*.jpeg" {
+    const content: string;
+    export default content;
+  }
+  declare module "*.jpg" {
+    const content: string;
+    export default content;
+  }
+  declare module "*.webp" {
+    const content: string;
+    export default content;
+  }
+}
