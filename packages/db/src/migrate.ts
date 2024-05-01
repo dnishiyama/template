@@ -1,6 +1,6 @@
-import { drizzle } from "drizzle-orm/mysql2";
-import { migrate } from "drizzle-orm/mysql2/migrator";
-import mysql from "mysql2";
+import { drizzle } from "drizzle-orm/postgres-js";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
+import postgres from "postgres";
 
 import { env } from "@acme/env";
 
@@ -8,7 +8,7 @@ const databaseUrl = env.DATABASE_URL;
 if (!databaseUrl) throw new Error("DATABASE_URL is not defined");
 
 // for migrations
-const sql = mysql.createConnection({ uri: databaseUrl });
+const sql = postgres(databaseUrl);
 
 const main = async () => {
   const drizzleMigrationClient = drizzle(sql);

@@ -5,7 +5,7 @@ import Email from "next-auth/providers/nodemailer";
 import { db, tableCreator } from "@acme/db";
 import { env } from "@acme/env";
 
-import { MDMySqlDrizzleAdapter } from "./MDMySqlDrizzleAdapter";
+import { MDPGDrizzleAdapter } from "./MDPgDrizzleAdapter";
 import { sendVerificationRequest } from "./sendVerificationRequest";
 
 export type { Session } from "next-auth";
@@ -16,7 +16,7 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
-  adapter: MDMySqlDrizzleAdapter(db, tableCreator),
+  adapter: MDPGDrizzleAdapter(db, tableCreator),
   providers: [
     Discord({
       clientId: env.AUTH_DISCORD_ID,
