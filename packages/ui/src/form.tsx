@@ -186,16 +186,34 @@ const FormMessage = React.forwardRef<
 });
 FormMessage.displayName = "FormMessage";
 
+// Create a factory so that we don't have to worry about using the wrong form types
+const ShadCNFormFactory = <T extends ZodType>(schema: T) => {
+  const useSchemaForm = (props: Omit<UseFormProps<T["_input"]>, "resolver">) =>
+    useForm({
+      ...props,
+      schema,
+    });
+  const useSchemaFormContext = () => useFormContext<T["_input"]>();
+  return { useSchemaForm, useSchemaFormContext, schemaType: typeof schema };
+};
+
+// Example usage
+// export const {
+//   useSchemaForm: useAdminSurveyForm,
+//   useSchemaFormContext: useAdminSurveyFormContext,
+// } = ShadCNFormFactory(AdminSurveyFormSchema)
+
 export {
-  useForm,
-  useFormField,
   Form,
-  FormItem,
-  FormLabel,
   FormControl,
   FormDescription,
-  FormMessage,
   FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  ShadCNFormFactory,
+  useForm,
+  useFormField,
 };
 
 export { useFieldArray } from "react-hook-form";
