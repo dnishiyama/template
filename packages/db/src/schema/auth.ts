@@ -1,22 +1,22 @@
 import { relations, sql } from "drizzle-orm";
 import {
   index,
-  integer,
+  int,
   primaryKey,
   text,
   timestamp,
   varchar,
-} from "drizzle-orm/pg-core";
+} from "drizzle-orm/mysql-core";
 
-import { pgTable } from "./_table";
+import { mySqlTable } from "./_table";
 
-export const users = pgTable("user", {
+export const users = mySqlTable("user", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull(),
   emailVerified: timestamp("emailVerified", {
     mode: "date",
-    precision: 3,
+    fsp: 3,
   }).default(sql`CURRENT_TIMESTAMP(3)`),
   image: varchar("image", { length: 255 }),
 });
@@ -25,7 +25,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
 }));
 
-export const accounts = pgTable(
+export const accounts = mySqlTable(
   "account",
   {
     userId: varchar("userId", { length: 255 }).notNull(),
@@ -36,7 +36,7 @@ export const accounts = pgTable(
     providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
     refresh_token: varchar("refresh_token", { length: 255 }),
     access_token: text("access_token"),
-    expires_at: integer("expires_at"),
+    expires_at: int("expires_at"),
     token_type: varchar("token_type", { length: 255 }),
     scope: varchar("scope", { length: 255 }),
     id_token: text("id_token"),
@@ -46,7 +46,7 @@ export const accounts = pgTable(
     compoundKey: primaryKey({
       columns: [account.provider, account.providerAccountId],
     }),
-    userIdIdx: index("accountUserId_idx").on(account.userId),
+    userIdIdx: index("userId_idx").on(account.userId),
   }),
 );
 
@@ -54,7 +54,7 @@ export const accountsRelations = relations(accounts, ({ one }) => ({
   user: one(users, { fields: [accounts.userId], references: [users.id] }),
 }));
 
-export const sessions = pgTable(
+export const sessions = mySqlTable(
   "session",
   {
     sessionToken: varchar("sessionToken", { length: 255 })
@@ -72,7 +72,7 @@ export const sessionsRelations = relations(sessions, ({ one }) => ({
   user: one(users, { fields: [sessions.userId], references: [users.id] }),
 }));
 
-export const verificationTokens = pgTable(
+export const verificationTokens = mySqlTable(
   "verificationToken",
   {
     identifier: varchar("identifier", { length: 255 }).notNull(),

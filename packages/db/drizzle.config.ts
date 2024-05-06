@@ -7,8 +7,8 @@ if (!uri) throw new Error("DATABASE_URL is not defined");
 
 export default {
   schema: "./src/schema",
-  driver: "pg",
-  dbCredentials: { connectionString: uri },
+  driver: "mysql2",
+  dbCredentials: { uri },
   tablesFilter: ["template_*"],
   out: "../db/drizzle",
 } satisfies Config;

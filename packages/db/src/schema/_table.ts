@@ -1,4 +1,4 @@
-import { pgTableCreator } from "drizzle-orm/pg-core";
+import { mysqlTableCreator } from "drizzle-orm/mysql-core";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM.
@@ -6,4 +6,4 @@ import { pgTableCreator } from "drizzle-orm/pg-core";
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const pgTable = pgTableCreator((name) => `template_${name}`);
+export const mySqlTable = mysqlTableCreator((name) => `template_${name}`);
