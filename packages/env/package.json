@@ -10,7 +10,7 @@
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
     "env:load": "tsx src/load-env.ts",
-    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "format": "prettier --check . --ignore-path ../../.gitignore --ignore-path ../../.prettierignore",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
