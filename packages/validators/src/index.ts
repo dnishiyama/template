@@ -10,14 +10,14 @@ export const PostInsertSchema = createInsertSchema(post);
 
 export const CreatePostSchema = PostInsertSchema.omit({
   id: true,
-  created_at: true,
-  updated_at: true,
+  createdAt: true,
+  updatedAt: true,
 });
 
 export const UpsertPostSchema = PostInsertSchema.omit({
   id: true,
-  created_at: true,
-  updated_at: true,
+  createdAt: true,
+  updatedAt: true,
 });
 
 // USER SCHEMA

@@ -11,7 +11,6 @@
     "clean": "rm -rf .turbo node_modules",
     "lint": "eslint .",
     "lint:fix": "pnpm lint --fix",
-    "load-members": "pnpm with-env tsx ./src/loadMembers.ts",
     "format": "prettier --check \"**/*.{mjs,ts,md,json}\"",
     "script": "pnpm with-env tsx ./src/script.ts",
     "typecheck": "tsc --noEmit",
