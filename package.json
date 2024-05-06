@@ -20,7 +20,7 @@
     "lint": "turbo lint --continue -- --cache --cache-location node_modules/.cache/.eslintcache",
     "lint:fix": "turbo lint --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
     "lint:ws": "pnpm dlx sherif@latest",
-    "postinstall": "pnpm lint:ws",
+    "postinstall": "pnpm lint:ws && pnpm db:migrate",
     "typecheck": "turbo typecheck"
   },
   "devDependencies": {
