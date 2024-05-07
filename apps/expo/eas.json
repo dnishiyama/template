@@ -4,10 +4,7 @@
   },
   "build": {
     "base": {
-      "node": "18.16.1",
-      "ios": {
-        "resourceClass": "m-medium"
-      }
+      "node": "18.16.1"
     },
     "development": {
       "extends": "base",
@@ -21,7 +18,7 @@
         "simulator": true
       }
     },
-    "production": {
+    "prod": {
       "extends": "base"
     }
   },
@@ -35,7 +32,7 @@
         "ascAppId": "1640693113"
       }
     },
-    "production": {
+    "prod": {
       "extends": "staging"
     }
   }
