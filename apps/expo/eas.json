@@ -6,24 +6,35 @@
     "base": {
       "node": "18.16.1"
     },
-    "development": {
+    "dev": {
       "extends": "base",
       "developmentClient": true,
-      "distribution": "internal"
-    },
-    "preview": {
-      "extends": "base",
       "distribution": "internal",
-      "ios": {
-        "simulator": true
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://dev.template.mountaindev.com",
+        "APP_ICON": "./assets/icon-test.png",
+        "APP_NAME": "T3 Template (Dev)"
+      }
+    },
+    "staging": {
+      "extends": "base",
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://staging.template.mountaindev.com",
+        "APP_ICON": "./assets/icon-test.png",
+        "APP_NAME": "T3 Template (Staging)"
       }
     },
     "prod": {
-      "extends": "base"
+      "extends": "base",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://template.mountaindev.com"
+      }
     }
   },
   "submit": {
-    "staging": {
+    "dev": {
       "android": {
         "track": "internal",
         "releaseStatus": "completed"
@@ -31,6 +42,9 @@
       "ios": {
         "ascAppId": "1640693113"
       }
+    },
+    "staging": {
+      "extends": "dev"
     },
     "prod": {
       "extends": "staging"
