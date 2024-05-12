@@ -7,7 +7,7 @@
   "packageManager": "pnpm@8.15.1",
   "scripts": {
     "build": "turbo build",
-    "clean": "find . -type d -name node_modules -prune -exec rm -rf {} \\;",
+    "clean": "find . -type d -name node_modules -prune -exec rm -rf {} \\; && rm -rf apps/nextjs/.next && rm -rf apps/expo/.expo",
     "clean:workspaces": "turbo clean",
     "db:push": "pnpm -F db push",
     "db:studio": "pnpm -F db studio",
