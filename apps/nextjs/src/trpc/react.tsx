@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { loggerLink, unstable_httpBatchStreamLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
@@ -10,8 +10,21 @@ import type { AppRouter } from "@acme/api";
 
 export const api = createTRPCReact<AppRouter>();
 
+// https://tanstack.com/query/latest/docs/framework/react/devtools
+const ReactQueryDevtoolsProduction = React.lazy(() =>
+  import("@tanstack/react-query-devtools/build/modern/production.js").then(
+    (d) => ({
+      default: d.ReactQueryDevtools,
+    }),
+  ),
+);
+
 export function TRPCReactProvider(props: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
+
+  const [showDevtools, setShowDevtools] = useState(
+    process.env.NODE_ENV === "development",
+  );
 
   const [trpcClient] = useState(() =>
     api.createClient({
@@ -34,10 +47,20 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
     }),
   );
 
+  useEffect(() => {
+    // @ts-expect-error -- add toggleDevtools to window
+    window.toggleDevtools = () => setShowDevtools((old) => !old);
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <api.Provider client={trpcClient} queryClient={queryClient}>
         {props.children}
+        {showDevtools && (
+          <Suspense fallback={null}>
+            <ReactQueryDevtoolsProduction />
+          </Suspense>
+        )}
       </api.Provider>
     </QueryClientProvider>
   );
