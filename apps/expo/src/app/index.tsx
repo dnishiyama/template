@@ -5,7 +5,7 @@ import { Link, Stack } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 
 import type { RouterOutputs } from "~/utils/api";
-import { api } from "~/utils/api";
+import { api, vanillaApi } from "~/utils/api";
 
 function PostCard(props: {
   post: RouterOutputs["post"]["all"][number];
@@ -102,6 +102,9 @@ export default function Index() {
   const deletePostMutation = api.post.delete.useMutation({
     onSettled: () => utils.post.all.invalidate().then(),
   });
+
+  const _deletePostMutationVanilla = (id: number) =>
+    vanillaApi.post.delete.mutate(id);
 
   return (
     <SafeAreaView className=" bg-background">
