@@ -10,11 +10,29 @@ export const schema = { ...auth, ...post };
 
 export { pgTable as tableCreator } from "./schema/_table";
 
-export * from "drizzle-orm";
-
 const databaseUrl = env.DATABASE_URL;
 if (!databaseUrl) throw new Error("DATABASE_URL is not defined");
 
-export const sql = postgres(databaseUrl, { max: 10 });
+const getDb = () => {
+  return drizzle(postgres(databaseUrl), { schema });
+};
 
-export const db = drizzle(sql, { schema });
+export type AppDb = ReturnType<typeof getDb>;
+
+declare global {
+  // eslint-disable-next-line no-var
+  var db: AppDb | null;
+}
+
+let db: AppDb;
+
+export * from "drizzle-orm";
+
+if (env.NODE_ENV === "production") {
+  db = getDb();
+} else {
+  if (!global.db) global.db = getDb();
+  db = global.db;
+}
+
+export { db };

@@ -1,34 +1,43 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import { migrate } from "drizzle-orm/postgres-js/migrator";
-import postgres from "postgres";
+import { migrate as migrator } from "drizzle-orm/postgres-js/migrator";
 
 import { env } from "@acme/env";
 
+import { db } from ".";
+import { reset } from "./reset";
+import { seed } from "./seed";
+
 const databaseUrl = env.DATABASE_URL;
-if (!databaseUrl) throw new Error("DATABASE_URL is not defined");
 
-// for migrations
-const sql = postgres(databaseUrl);
-const drizzleMigrationClient = drizzle(sql);
-
-const main = async () => {
+const migrate = async () => {
   if (!databaseUrl) return;
   if (process.env.CI) return;
-  if (!drizzleMigrationClient) return;
 
-  // get the channel from the database url (e.g. postgres://localhost:5432/acme_dev -> dev; postgres://localhost:5432/acme -> acme)
-  const channel = databaseUrl.split("/").slice(-1)[0]?.split("_").slice(-1)[0];
+  // If we have arg `--reset` then we should reset the database
+  if (process.argv.includes("--reset")) {
+    await reset();
+  }
 
-  console.log("Migrating channel", channel);
-  return await migrate(drizzleMigrationClient, {
-    migrationsTable: `__drizzle_migrations_${channel}`,
+  const database = databaseUrl.split("/").slice(-1)[0];
+
+  console.log("Migrating database", database);
+  await migrator(db, {
+    migrationsTable: `__drizzle_migrations_${database}`,
     migrationsFolder: "drizzle",
   });
+
+  if (process.argv.includes("--seed")) {
+    console.log("Seeding database");
+    await seed();
+  }
 };
 
-void main()
-  .then(() => console.log("Migration complete"))
-  .catch((error) => console.log("Migration failed", error))
-  .finally(() => {
-    void sql.end();
-  });
+if (require.main === module) {
+  void migrate()
+    .then(() => console.log("Migration done"))
+    .catch((e) => {
+      console.log("Migration failed", e);
+    })
+    .finally(() => {
+      process.exit();
+    });
+}

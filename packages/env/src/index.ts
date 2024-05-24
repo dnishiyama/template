@@ -12,6 +12,9 @@ export const env = createEnv({
     AUTH_DISCORD_SECRET: z.string().min(1),
     EMAIL_SERVER: z.string().min(1),
     EMAIL_FROM: z.string().min(1),
+    NODE_ENV: z
+      .enum(["development", "production", "test"])
+      .default("development"),
   },
   client: {
     NEXT_PUBLIC_URL: z.string().min(1),
