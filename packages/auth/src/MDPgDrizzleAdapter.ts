@@ -1,13 +1,10 @@
-import type { Adapter, AdapterAccount } from "@auth/core/adapters";
-import type { PgDatabase, PgTableFn } from "drizzle-orm/pg-core";
+import type { Adapter } from "@auth/core/adapters";
+import type { PgDatabase } from "drizzle-orm/pg-core";
 import { and, eq } from "drizzle-orm";
-import {
-  pgTable as defaultPgTableFn,
-  integer,
-  primaryKey,
-  text,
-  timestamp,
-} from "drizzle-orm/pg-core";
+
+import { schema } from "@acme/db";
+
+const { users, accounts, sessions, verificationTokens } = schema;
 
 type NonNullableProps<T> = {
   [P in keyof T]: null extends T[P] ? never : P;
@@ -19,69 +16,9 @@ function stripUndefined<T>(obj: T): Pick<T, NonNullableProps<T>> {
   return result;
 }
 
-export function createTables(pgTable: PgTableFn) {
-  const users = pgTable("user", {
-    id: text("id").notNull().primaryKey(),
-    name: text("name"),
-    email: text("email").notNull(),
-    emailVerified: timestamp("emailVerified", { mode: "date" }),
-    image: text("image"),
-  });
-
-  const accounts = pgTable(
-    "account",
-    {
-      userId: text("userId")
-        .notNull()
-        .references(() => users.id, { onDelete: "cascade" }),
-      type: text("type").$type<AdapterAccount["type"]>().notNull(),
-      provider: text("provider").notNull(),
-      providerAccountId: text("providerAccountId").notNull(),
-      refresh_token: text("refresh_token"),
-      access_token: text("access_token"),
-      expires_at: integer("expires_at"),
-      token_type: text("token_type"),
-      scope: text("scope"),
-      id_token: text("id_token"),
-      session_state: text("session_state"),
-    },
-    (account) => ({
-      compoundKey: primaryKey(account.provider, account.providerAccountId),
-    }),
-  );
-
-  const sessions = pgTable("session", {
-    sessionToken: text("sessionToken").notNull().primaryKey(),
-    userId: text("userId")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    expires: timestamp("expires", { mode: "date" }).notNull(),
-  });
-
-  const verificationTokens = pgTable(
-    "verificationToken",
-    {
-      identifier: text("identifier").notNull(),
-      token: text("token").notNull(),
-      expires: timestamp("expires", { mode: "date" }).notNull(),
-    },
-    (vt) => ({
-      compoundKey: primaryKey(vt.identifier, vt.token),
-    }),
-  );
-
-  return { users, accounts, sessions, verificationTokens };
-}
-
-export type DefaultSchema = ReturnType<typeof createTables>;
-
 export function MDPGDrizzleAdapter(
   client: InstanceType<typeof PgDatabase>,
-  tableFn = defaultPgTableFn,
 ): Adapter {
-  const { users, accounts, sessions, verificationTokens } =
-    createTables(tableFn);
-
   return {
     async createUser(data) {
       return await client
