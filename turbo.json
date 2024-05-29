@@ -33,6 +33,10 @@
       "dependsOn": ["^topo"],
       "outputs": ["node_modules/.cache/tsbuildinfo.json"]
     },
+    "test": {
+      "dependsOn": ["^topo"],
+      "outputs": ["node_modules/.cache/test.json"]
+    },
     "clean": {
       "cache": false
     }
