@@ -1,40 +1,40 @@
 {
-  "id": "b930d5b3-be9a-4b67-a010-ec70b662b6f1",
+  "id": "5440e3fb-2475-4d50-883b-1d997b702369",
   "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "5",
-  "dialect": "pg",
+  "version": "6",
+  "dialect": "postgresql",
   "tables": {
-    "template_account": {
+    "public.template_account": {
       "name": "template_account",
       "schema": "",
       "columns": {
         "userId": {
           "name": "userId",
-          "type": "varchar(255)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
         "type": {
           "name": "type",
-          "type": "varchar(255)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
         "provider": {
           "name": "provider",
-          "type": "varchar(255)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "providerAccountId": {
-          "name": "providerAccountId",
-          "type": "varchar(255)",
+        "provider_account_id": {
+          "name": "provider_account_id",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
         "refresh_token": {
           "name": "refresh_token",
-          "type": "varchar(255)",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -52,13 +52,13 @@
         },
         "token_type": {
           "name": "token_type",
-          "type": "varchar(255)",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
         "scope": {
           "name": "scope",
-          "type": "varchar(255)",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -70,45 +70,51 @@
         },
         "session_state": {
           "name": "session_state",
-          "type": "varchar(255)",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         }
       },
-      "indexes": {
-        "accountUserId_idx": {
-          "name": "accountUserId_idx",
-          "columns": [
+      "indexes": {},
+      "foreignKeys": {
+        "template_account_userId_template_user_id_fk": {
+          "name": "template_account_userId_template_user_id_fk",
+          "tableFrom": "template_account",
+          "tableTo": "template_user",
+          "columnsFrom": [
             "userId"
           ],
-          "isUnique": false
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
-      "foreignKeys": {},
       "compositePrimaryKeys": {
-        "template_account_provider_providerAccountId_pk": {
-          "name": "template_account_provider_providerAccountId_pk",
+        "template_account_provider_provider_account_id_pk": {
+          "name": "template_account_provider_provider_account_id_pk",
           "columns": [
             "provider",
-            "providerAccountId"
+            "provider_account_id"
           ]
         }
       },
       "uniqueConstraints": {}
     },
-    "template_session": {
+    "public.template_session": {
       "name": "template_session",
       "schema": "",
       "columns": {
-        "sessionToken": {
-          "name": "sessionToken",
-          "type": "varchar(255)",
+        "session_token": {
+          "name": "session_token",
+          "type": "text",
           "primaryKey": true,
           "notNull": true
         },
         "userId": {
           "name": "userId",
-          "type": "varchar(255)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
@@ -119,51 +125,56 @@
           "notNull": true
         }
       },
-      "indexes": {
-        "userId_idx": {
-          "name": "userId_idx",
-          "columns": [
+      "indexes": {},
+      "foreignKeys": {
+        "template_session_userId_template_user_id_fk": {
+          "name": "template_session_userId_template_user_id_fk",
+          "tableFrom": "template_session",
+          "tableTo": "template_user",
+          "columnsFrom": [
             "userId"
           ],
-          "isUnique": false
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
-      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "template_user": {
+    "public.template_user": {
       "name": "template_user",
       "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "varchar(255)",
+          "type": "text",
           "primaryKey": true,
           "notNull": true
         },
         "name": {
           "name": "name",
-          "type": "varchar(255)",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
         "email": {
           "name": "email",
-          "type": "varchar(255)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "emailVerified": {
-          "name": "emailVerified",
-          "type": "timestamp (3)",
+        "email_verified": {
+          "name": "email_verified",
+          "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
-          "default": "CURRENT_TIMESTAMP(3)"
+          "notNull": false
         },
         "image": {
           "name": "image",
-          "type": "varchar(255)",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         }
@@ -173,19 +184,19 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "template_verificationToken": {
-      "name": "template_verificationToken",
+    "public.template_verification_token": {
+      "name": "template_verification_token",
       "schema": "",
       "columns": {
         "identifier": {
           "name": "identifier",
-          "type": "varchar(255)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
         "token": {
           "name": "token",
-          "type": "varchar(255)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
@@ -199,8 +210,8 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {
-        "template_verificationToken_identifier_token_pk": {
-          "name": "template_verificationToken_identifier_token_pk",
+        "template_verification_token_identifier_token_pk": {
+          "name": "template_verification_token_identifier_token_pk",
           "columns": [
             "identifier",
             "token"
@@ -209,7 +220,7 @@
       },
       "uniqueConstraints": {}
     },
-    "template_post": {
+    "public.template_post": {
       "name": "template_post",
       "schema": "",
       "columns": {
@@ -238,8 +249,8 @@
           "notNull": true,
           "default": "CURRENT_TIMESTAMP"
         },
-        "updatedAt": {
-          "name": "updatedAt",
+        "updated_at": {
+          "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,

@@ -3,10 +3,10 @@ import postgres from "postgres";
 
 import { env } from "@acme/env";
 
-import * as auth from "./schema/auth";
-import * as post from "./schema/post";
+import { accounts, sessions, users, verificationTokens } from "./schema/auth";
+import { post } from "./schema/post";
 
-export const schema = { ...auth, ...post };
+export const schema = { accounts, sessions, users, verificationTokens, post };
 
 export { pgTable as tableCreator } from "./schema/_table";
 

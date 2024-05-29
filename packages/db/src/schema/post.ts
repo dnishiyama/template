@@ -11,7 +11,7 @@ export const post = pgTable("post", {
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
   // https://github.com/drizzle-team/drizzle-orm/issues/956#issuecomment-1676024997
-  updatedAt: timestamp("updatedAt")
+  updatedAt: timestamp("updated_at")
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
 });
