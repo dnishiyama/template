@@ -14,7 +14,7 @@
     "format": "prettier --check . --ignore-path .gitignore --ignore-path .prettierignore",
     "script": "pnpm with-env tsx ./src/script.ts",
     "typecheck": "tsc --noEmit",
-    "with-env": "src/run_with_env.sh"
+    "with-env": "../../scripts/run_with_env.sh"
   },
   "devDependencies": {
     "@acme/env": "workspace:*",

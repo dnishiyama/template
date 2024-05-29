@@ -2,17 +2,15 @@
 # run_with_env.sh
 
 # To run a package command
-# pnpm with-env --development pnpm -F scripts script (package.json script)
-    # (uses only .env.development, despite script using with-env)
-
-# pnpm with-env --development pnpm -F scripts exec tsx src/script.ts
-# pnpm -F scripts with-env --development tsx src/script.ts
-# pnpm -F scripts with-env --development pnpm script
+# pnpm with-env --development pnpm -F scripts script (package.json script) # (uses only .env.development, despite script using with-env)
+# pnpm with-env --development pnpm -F scripts exec tsx src/script.ts (npx package)
+# pnpm -F scripts with-env --development tsx src/script.ts (npx package)
+# pnpm -F scripts with-env --development pnpm script (package.json script)
 
 # To run a root command
-# pnpm with-env --development prisma studio (npx package)
-# pnpm with-env --development pnpm prisma studio (npx package)
-# pnpm with-env --development pnpm lint
+# pnpm with-env --development tsx tooling/scripts/src/script.ts (npx package)
+# pnpm with-env --development pnpm db:studio (package.json script)
+# pnpm with-env --development pnpm tsx tooling/scripts/src/script.ts  (npx package)
 
 echo "PWD is $PWD"
 

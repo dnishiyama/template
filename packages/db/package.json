@@ -17,7 +17,7 @@
     "migrate": "pnpm with-env node -r esbuild-register src/migrate.ts --config=drizzle.config.ts",
     "studio": "pnpm with-env drizzle-kit studio",
     "typecheck": "tsc --noEmit",
-    "with-env": "../../tooling/scripts/src/run_with_env.sh"
+    "with-env": "../../scripts/run_with_env.sh"
   },
   "dependencies": {
     "drizzle-orm": "^0.30.10",

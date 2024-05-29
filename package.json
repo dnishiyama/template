@@ -22,7 +22,7 @@
     "lint:ws": "pnpm dlx sherif@latest",
     "postinstall": "pnpm lint:ws && pnpm db:migrate",
     "typecheck": "turbo typecheck",
-    "with-env": "./tooling/scripts/src/run_with_env.sh --root"
+    "with-env": "./scripts/run_with_env.sh --root"
   },
   "devDependencies": {
     "@acme/prettier-config": "workspace:^0.1.0",
