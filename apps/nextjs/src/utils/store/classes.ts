@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import cloneDeep from "lodash/cloneDeep";
+import merge from "lodash/merge";
 import { proxy, useSnapshot } from "valtio";
 // A class that wraps valtio and has functions for setting and getting state
 // This is used in the admin app
@@ -63,7 +64,7 @@ export class ValtioWrapper<T extends Record<string, unknown>> {
     );
   };
 
-  update = (state: Partial<T>) => Object.assign(this.values, state);
+  update = (state: Partial<T>) => merge(this.values, state);
 
   get = <U extends FlattenObjectKeys<T>>(key: U) => getValue(this.values, key);
 
