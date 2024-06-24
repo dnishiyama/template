@@ -1,6 +1,10 @@
 TODO:
 
-- valtio from Ray's Weather (with new valtio persist items)
+- zustand from Pneuma
+- mobile onconfirm from pneuma
+- Basic admin portal from Rheumote (complex use) / Pneuma (simple architecture)
+- Ability to add groups and members
+- Subscriptions for groups - need to think through the architecture
 
 NOTES:
 
