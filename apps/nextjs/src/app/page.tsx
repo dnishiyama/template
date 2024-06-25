@@ -1,41 +1,21 @@
-import { Suspense } from "react";
-
-import { api } from "~/trpc/server";
-import { AuthShowcase } from "./_components/auth-showcase";
-import { GroovyWalker } from "./_components/groovy-walker";
-import {
-  CreatePostForm,
-  PostCardSkeleton,
-  PostList,
-} from "./_components/posts";
+import { AuthShowcase } from "~/app/_components/auth-showcase";
+import { DatabaseShowcase } from "~/app/_components/database-showcase";
+import { GroovyWalker } from "~/app/_components/groovy-walker";
+import { StoreShowcase } from "~/app/_components/store-showcase";
 
 export default async function HomePage() {
   // You can await this here if you don't want to show Suspense fallback below
-  const posts = api.post.all();
 
   return (
-    <main className="container h-screen py-16">
-      <div className="flex flex-col items-center justify-center gap-4">
+    <main className="container min-h-screen py-16">
+      <div className="flex flex-col items-center justify-center gap-8">
         <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-          Create <span className="text-primary">T3</span> Turbo
+          Create Mountain <span className="text-primary">Dev</span>
         </h1>
         <GroovyWalker />
         <AuthShowcase />
-
-        <CreatePostForm />
-        <div className="w-full max-w-2xl overflow-y-scroll">
-          <Suspense
-            fallback={
-              <div className="flex w-full flex-col gap-4">
-                <PostCardSkeleton />
-                <PostCardSkeleton />
-                <PostCardSkeleton />
-              </div>
-            }
-          >
-            <PostList posts={posts} />
-          </Suspense>
-        </div>
+        <StoreShowcase />
+        <DatabaseShowcase />
       </div>
     </main>
   );

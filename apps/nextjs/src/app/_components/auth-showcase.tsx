@@ -9,6 +9,7 @@ export async function AuthShowcase() {
   if (!session) {
     return (
       <div className="flex flex-row items-center gap-4">
+        <h2 className="text-2xl font-semibold">Auth Showcase</h2>
         <form>
           <Button
             size="lg"
@@ -32,6 +33,7 @@ export async function AuthShowcase() {
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
+      <h2 className="text-2xl font-semibold">Auth Showcase</h2>
       <p className="text-center text-2xl">
         {session && (
           <span>Logged in as {session.user?.name ?? session.user?.email}</span>

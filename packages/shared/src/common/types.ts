@@ -1,8 +1,3 @@
-import type {
-  PersistStrategy,
-  ProxyPersistStorageEngine,
-} from "valtio-persist";
-
 export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 export type Truthy<T> = T extends false | "" | 0 | null | undefined ? never : T;
@@ -69,20 +64,3 @@ export interface Serialized<T> {
 }
 
 export type Nullish<T> = { [P in keyof T]?: T[P] | null };
-
-export interface PersistedValtioOptions {
-  persist: true | PersistStrategy | Record<string, PersistStrategy>;
-  migrations?: Record<number, (() => void | Promise<void>) | undefined>;
-  version?: number;
-  persistStrategies?: PersistStrategy;
-  name?: string;
-  storage: ProxyPersistStorageEngine;
-}
-
-export interface UnpersistedValtioOptions {
-  persist?: never;
-  migrations?: Record<number, (() => void | Promise<void>) | undefined>;
-  version?: number;
-  persistStrategies?: PersistStrategy;
-  name?: string;
-}

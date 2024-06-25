@@ -1,6 +1,6 @@
 TODO:
 
-- zustand from Pneuma
+- [x] zustand from Pneuma
 - mobile onconfirm from pneuma
 - Basic admin portal from Rheumote (complex use) / Pneuma (simple architecture)
 - Ability to add groups and members
